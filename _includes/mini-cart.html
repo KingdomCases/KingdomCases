@@ -1,0 +1,58 @@
+<div class="mini-cart">
+  <div class="mini-cart-inner">
+    {% if cart.item_count > 0 %}
+    <div class="mini-cart-body">
+      {% for item in cart.items %}
+      <div class="mini-cart-item-row">
+        <div class="grid-middle text-left">
+          <div class="col-2">
+            <div class="mini-cart-item-image">
+              <img src="{{ item.image | img_url: '100x' }}" alt="{{ item.title | escape }}">
+            </div>
+          </div>
+          <div class="col-6">
+            <h4 class="mini-cart-item-title"><a href="{{ item.product.url }}">{{ item.product.title }}</a></h4>
+            <small class="cart-variant">{{ item.variant.title }}</small>
+          </div>
+          <div class="col-3 text-right">
+            <p class="mini-cart-item-price">{{ item.line_price | money }}</p>
+          </div>
+          <div class="col-1">
+            <span class="mini-cart-item-remove" data-variant-id="{{ item.id }}" data-quantity="{{ item.quantity }}" data-line-number="{{ forloop.index }}"><i class="icomoon-close"></i></span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="mini-cart-footer">
+      <div class="grid">
+        <div class="col-7 padding text-right">
+          <p class="mini-cart-footer-total">Total</p>
+        </div>
+        <div class="col-4 padding text-right" data-push-right="push-1">
+          <p class="mini-cart-footer-total-price">{{ cart.total_price | money }}</p>
+        </div>
+        <div class="col-4 padding">
+          <a class="button--light--full mini-cart-button" href="/cart">Cart</a>
+        </div>
+        <div class="col-8 padding">
+          <button class="button--full checkout" name="checkout" type="submit">Checkout</button>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="mini-cart-body">
+      <div class="mini-cart-item-row text-center">
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="mini-cart-footer is-empty">
+      <div class="grid">
+        <div class="col-12 padding">
+          <a class="button--full" href="/collections/all">Start Shopping</a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

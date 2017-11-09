@@ -1,0 +1,45 @@
+---
+layout: default
+---
+<div class="cart">
+  <div class="container">
+
+    <div class="grid">
+      <div class="col-12 padding">
+        <h1>Cart</h1>
+        {% if content %}{{ content }}{% endif %}
+      </div>
+    </div>
+    <div class="cart-header">
+      <div class="grid">
+        <div class="col-6">
+          <h5>Product</h5>
+        </div>
+        <div class="col-2 text-right">
+          <h5>Price</h5>
+        </div>
+        <div class="col-2 text-right">
+          <h5>Quantity</h5>
+        </div>
+        <div class="col-2 text-right">
+          <h5>Total</h5>
+        </div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-12" id="cart"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $(function(){
+    buildCart();
+    $('#cart').on('change', '.quantity', function(){
+      var variantID = $(this).attr('data-variant-id'),
+          quantity = $(this).val();
+          addOrUpdateVariant(variantID, quantity);
+    });
+  });
+</script>

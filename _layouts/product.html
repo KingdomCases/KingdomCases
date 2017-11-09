@@ -1,0 +1,120 @@
+---
+layout: default
+---
+<div class="product">
+  <div id="product" class="container">
+    {% include loader.html %}
+  </div>
+</div>
+
+<script>
+  var productId;
+  $(function () {
+    shopClient.fetchProduct('{{ page.product_id }}')
+    .then(function (product) {
+      productId = product.id;
+      var productHTML = '\
+        <div class="grid">\
+          <div class="col-6_sm-12 text-center">\
+            <div class="product-image">\
+              <img src="" />\
+              <div class="product-image-background">'+product.title+'</div>\
+            </div>\
+          </div>\
+          <div class="col-6_sm-12">\
+            <h1 class="product-title">'+product.title+'</h1>\
+            <div class="product-description content">'+product.description+'</div>\
+            <div class="product-form">\
+              <div class="product-variant-selector"></div>\
+              <div class="product-quantity-wrapper">\
+                <label for="quantity">Quantity</label>\
+                <input class="quantity" type="number" min="1" value="1" />\
+              </div>\
+              <h2 class="product-price h1"></h2>\
+              <div class="add-to-cart-wrapper text-center">\
+                <div class="btn add-to-cart" data-product-id="'+product.id+'" data-variant-id="'+ product.selectedVariant.id+'">Add To Cart</div>\
+              </div>\
+            </div>\
+          </div>\
+        </div>';
+      $('#product').html(productHTML);
+
+      // Initial values
+      var selectedVariant = product.selectedVariant,
+          selectedVariantImage = product.selectedVariantImage,
+          varCount = product.variants.length;
+
+      // Checks if there are more than one variant, and if so, adds the selectors.
+      if (varCount > 1) {
+        console.log(product.variants, product.options)
+				var variantSelectors = product.options.map(function (option) {
+          return '<label for="'+option.name+'">'+option.name+'</label>\
+          <div class="select-wrapper"><div class="select-arrow"><i class="far fa-chevron-down"></i></div><select name="' + option.name + '" class="variant-selector">' + 
+            option.values.map(function(value) {
+              return '<option value="' + value + '">' + value + '</option>';
+            }).join('\n') +
+          '</select></div>';
+        });
+        $('.product-variant-selector').html(variantSelectors);
+			}
+      updateVariantImage(selectedVariantImage);
+			updateVariantPrice(selectedVariant);
+      $('#product').on('change', '.variant-selector', function(select){
+        var optionName = select.target.name;
+        var selectedValue = select.target.value;
+
+        var option = product.options.filter(function (option) {
+          return option.name === optionName;
+        })[0];
+
+        option.selected = selectedValue;
+        updateVariantImage(product.selectedVariantImage);
+        updateVariantPrice(product.selectedVariant);
+      });
+      $('#product').on('click', '.add-to-cart', function(){
+        $('.add-to-cart').html('<i class="far fa-spinner-third fa-spin fa-fw"></i>');
+        var theQuantity = $('.quantity').val();
+        setTimeout(function(){
+          cart.createLineItemsFromVariants({
+            variant: product.selectedVariant,
+            quantity: theQuantity
+          }).then(function (newCart) {
+            localStorage.setItem('lastCartId', newCart.id);
+            cartLineItemCount = newCart.lineItemCount;
+            cartCount();
+          });
+          $('.add-to-cart').addClass('add-to-cart-success').html('Success!');
+          if($('.product-success').length <= 0){
+            $('.add-to-cart-wrapper').append('<div class="product-success"><a href="">Continue shopping</a> or <a href="">Checkout</a></div>');
+          }
+          setTimeout(function(){
+            $('.add-to-cart').removeClass('add-to-cart-success').html('Add to Cart');
+          }, 5000);
+        }, 2000);
+        
+      });
+    })
+    .catch(function () {
+      console.log('Request failed here');
+    });//End "get products"
+  });
+
+  // Changes the image to the selected variant's image
+  function updateVariantImage(selectedVariantImage){
+    var src = (selectedVariantImage) ? selectedVariantImage.src : ShopifyBuy.NO_IMAGE_URI;
+    $('.product-image img').attr('src', src);
+  }
+
+  // Changes the price to the selected variant's price
+  function updateVariantPrice(selectedVariant){
+    $('.product-price').text('$' + selectedVariant.price);
+  }
+  function addOrUpdateVariant(cartLineItem, variantObject, quantity) {
+    var variantObjectID = variantObject.id;
+    if (cartLineItem) {
+      updateVariantInCart(cartLineItem, quantity);
+    } else {
+      addVariantToCart(variantObject, quantity);
+    }
+  }
+</script>

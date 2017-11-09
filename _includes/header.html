@@ -1,0 +1,35 @@
+<div class="header">
+  <div class="grid">
+    <div class="col-12 text-right ib-fix cf">
+        <div class="logo">
+          <a href="/"><img src="{{ site.assets | append: '/kingdomcases/logo.png'}}" alt="{{ shop.name }}"></a>
+        </div>
+      <div class="nav">
+        <ul class="nav-menu mod--first--unstyled">
+          <li class="nav-menu-item">
+            <a class="nav-menu-link" href="/collections/all-designs">Designs</a>
+          </li>
+          <li class="nav-menu-item">
+            <a class="nav-menu-link" href="/faqs">FAQs</a>
+          </li>
+          <li class="nav-menu-item">
+            <a class="nav-menu-link" href="/about">About</a>
+          </li>
+          <li class="nav-menu-item">
+            <a class="nav-menu-link" href="/contact">Contact</a>
+          </li>
+        </ul>
+      </div><!-- nav -->
+      <div class="mobile-nav">
+        <i class="icomoon-menu"></i>
+      </div>
+      <div class="cart-button">
+        <span class="mobile-cart-notification"></span>
+        <i class="fas fa-shopping-cart"></i>
+      </div>
+      {% include mini-cart.html %}
+    </div>
+
+  </div>
+</div><!-- header -->
+

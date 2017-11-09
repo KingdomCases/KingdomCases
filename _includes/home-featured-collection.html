@@ -1,0 +1,54 @@
+<div class="featured-collection-section">
+  <div class="container">
+    <div class="grid">
+
+      <div class="col-12 padding cf">
+        <h2 class="ribbon-title">Featured Designs</h2>
+        <a class="button title-button featured-button-view-all" href="/collections/all-designs">View All</a>
+      </div>
+
+      <div class="col-12">
+        <div id="collection" class="grid"></div>
+      </div>
+
+      <div class="col-12 padding md-show">
+        <a class="button--full" href="{{ collections[section.settings.collection].url }}">View All</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(function () {
+    shopClient.fetchQueryProducts({collection_id: '18241683494', sort_by: 'collection-default' }).then(function (products) {
+      console.log('products', products);
+      var productHTML = "";
+      for (i = 0; i < products.length; i++) {
+        var product = products[i];
+        productHTML = productHTML + '<div class="col-4_md-6_sm-12">\
+            <div class="product-square-item">\
+              <a class="product-image" href="/products/'+product.attrs.handle+'"><img src="'+product.images[0].variants[6].src+'" /></a>\
+              <div class="product-item-info">\
+                <div class="grid">\
+                  <div class="col-9_sm-12 padding">\
+                    <h4 class="product-item-title">\
+                      <a href="/products/'+product.attrs.handle+'">'+product.title+'</a>\
+                    </h4>\
+                  </div>\
+                  <div class="col-3_sm-12 padding text-right text-left-sm">\
+                    <p class="product-item-price">$'+product.selectedVariant.price+'</p>\
+                  </div>\
+                  <div class="col-12">\
+                    <a class="button small-add-to-cart" href="/products/'+product.attrs.handle+'">Buy now</a>\
+                  </div>\
+                </div>\
+              </div>\
+            </div>\
+          </div>'
+      }
+      $('#collection').html(productHTML);
+    });
+  });
+</script>

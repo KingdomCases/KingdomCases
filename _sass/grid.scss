@@ -1,0 +1,417 @@
+
+ /*8888b.  8888888b.  8888888 8888888b.
+d88P  Y88b 888   Y88b   888   888  "Y88b
+888    888 888    888   888   888    888
+888        888   d88P   888   888    888
+888  88888 8888888P"    888   888    888
+888    888 888 T88b     888   888    888
+Y88b  d88P 888  T88b    888   888  .d88P
+ "Y8888P88 888   T88b 8888888 8888888*/
+
+
+// Variables
+$container: 1180px;
+$large: 1180px;
+$medium: 1024px;
+$small: 768px;
+$extrasmall: 480px;
+$tiny: 320px;
+$gl-gutter: 20px;
+
+$postSmall: $small + 1;
+$gl-xs: "screen and (max-width: #{$extrasmall})";
+$gl-sm: "screen and (max-width: #{$small})";
+$gl-md: "screen and (max-width: #{$medium})";
+$gl-lg: "screen and (max-width: #{$large})";
+
+$glp_col-1: (100%/12);
+$glp_col-2: ($glp_col-1*2);
+$glp_col-3: ($glp_col-1*3);
+$glp_col-4: ($glp_col-1*4);
+$glp_col-5: ($glp_col-1*5);
+$glp_col-6: ($glp_col-1*6);
+$glp_col-7: ($glp_col-1*7);
+$glp_col-8: ($glp_col-1*8);
+$glp_col-9: ($glp_col-1*9);
+$glp_col-10: ($glp_col-1*10);
+$glp_col-11: ($glp_col-1*11);
+$glp_col-12: 100%;
+$glp_col-fifth: 20%;
+
+$glp_col-5-12: (100%/5);
+$glp_col-7-12: (100%/7);
+$glp_col-8-12: (100%/8);
+$glp_col-9-12: (100%/9);
+$glp_col-10-12: (100%/10);
+$glp_col-11-12: (100%/11);
+
+// Function to generate the grid by number
+@mixin makeGridByNumber($grid)
+{
+  [class*="#{$grid}-1"] > .col, [class*="#{$grid}-1"] > [class*='col-']{ -webkit-flex-basis: $glp_col-12; -ms-flex-preferred-size: $glp_col-12; flex-basis: $glp_col-12; max-width: $glp_col-12; }
+  [class*="#{$grid}-2"] > .col, [class*="#{$grid}-2"] > [class*='col-']{ -webkit-flex-basis: $glp_col-6; -ms-flex-preferred-size: $glp_col-6; flex-basis: $glp_col-6; max-width: $glp_col-6; }
+  [class*="#{$grid}-3"] > .col, [class*="#{$grid}-3"] > [class*='col-']{ -webkit-flex-basis: $glp_col-4; -ms-flex-preferred-size: $glp_col-4; flex-basis: $glp_col-4; max-width: $glp_col-4; }
+  [class*="#{$grid}-4"] > .col, [class*="#{$grid}-4"] > [class*='col-']{ -webkit-flex-basis: $glp_col-3; -ms-flex-preferred-size: $glp_col-3; flex-basis: $glp_col-3; max-width: $glp_col-3; }
+  [class*="#{$grid}-5"] > .col, [class*="#{$grid}-5"] > [class*='col-']{ -webkit-flex-basis: $glp_col-5-12; -ms-flex-preferred-size: $glp_col-5-12; flex-basis: $glp_col-5-12; max-width: $glp_col-5-12; }
+  [class*="#{$grid}-6"] > .col, [class*="#{$grid}-6"] > [class*='col-']{ -webkit-flex-basis: $glp_col-2; -ms-flex-preferred-size: $glp_col-2; flex-basis: $glp_col-2; max-width: $glp_col-2; }
+  [class*="#{$grid}-7"] > .col, [class*="#{$grid}-7"] > [class*='col-']{ -webkit-flex-basis: $glp_col-7-12; -ms-flex-preferred-size: $glp_col-7-12; flex-basis: $glp_col-7-12; max-width: $glp_col-7-12; }
+  [class*="#{$grid}-8"] > .col, [class*="#{$grid}-8"] > [class*='col-']{ -webkit-flex-basis: $glp_col-8-12; -ms-flex-preferred-size: $glp_col-8-12; flex-basis: $glp_col-8-12; max-width: $glp_col-8-12; }
+  [class*="#{$grid}-9"] > .col, [class*="#{$grid}-9"] > [class*='col-']{ -webkit-flex-basis: $glp_col-9-12; -ms-flex-preferred-size: $glp_col-9-12; flex-basis: $glp_col-9-12; max-width: $glp_col-9-12; }
+  [class*="#{$grid}-10"] > .col, [class*="#{$grid}-10"] > [class*='col-']{ -webkit-flex-basis: $glp_col-10-12; -ms-flex-preferred-size: $glp_col-10-12; flex-basis: $glp_col-10-12; max-width: $glp_col-10-12; }
+  [class*="#{$grid}-11"] > .col, [class*="#{$grid}-11"] > [class*='col-']{ -webkit-flex-basis: $glp_col-11-12; -ms-flex-preferred-size: $glp_col-11-12; flex-basis: $glp_col-11-12; max-width: $glp_col-11-12; }
+  [class*="#{$grid}-12"] > .col, [class*="#{$grid}-12"] > [class*='col-']{ -webkit-flex-basis: $glp_col-1; -ms-flex-preferred-size: $glp_col-1; flex-basis: $glp_col-1; max-width: $glp_col-1; }
+  [class*="#{$grid}-fifth"] > .col, [class*="#{$grid}-fifth"] > [class*='col-']{ -webkit-flex-basis: $glp_col-fifth; -ms-flex-preferred-size: $glp_col-fifth; flex-basis: $glp_col-fifth; max-width: $glp_col-fifth; }  
+
+  html.lte-ie9 [class*="#{$grid}-1"] > .col, html.lte-ie9 [class*="#{$grid}-1"] > [class*='col-']{ -webkit-flex-basis: $glp_col-12; -ms-flex-preferred-size: $glp_col-12; flex-basis: $glp_col-12; width: $glp_col-12; }
+  html.lte-ie9 [class*="#{$grid}-2"] > .col, html.lte-ie9 [class*="#{$grid}-2"] > [class*='col-']{ -webkit-flex-basis: $glp_col-6; -ms-flex-preferred-size: $glp_col-6; flex-basis: $glp_col-6; width: $glp_col-6; }
+  html.lte-ie9 [class*="#{$grid}-3"] > .col, html.lte-ie9 [class*="#{$grid}-3"] > [class*='col-']{ -webkit-flex-basis: $glp_col-4; -ms-flex-preferred-size: $glp_col-4; flex-basis: $glp_col-4; width: $glp_col-4; }
+  html.lte-ie9 [class*="#{$grid}-4"] > .col, html.lte-ie9 [class*="#{$grid}-4"] > [class*='col-']{ -webkit-flex-basis: $glp_col-3; -ms-flex-preferred-size: $glp_col-3; flex-basis: $glp_col-3; width: $glp_col-3; }
+  html.lte-ie9 [class*="#{$grid}-5"] > .col, html.lte-ie9 [class*="#{$grid}-5"] > [class*='col-']{ -webkit-flex-basis: $glp_col-5-12; -ms-flex-preferred-size: $glp_col-5-12; flex-basis: $glp_col-5-12; width: $glp_col-5-12; }
+  html.lte-ie9 [class*="#{$grid}-6"] > .col, html.lte-ie9 [class*="#{$grid}-6"] > [class*='col-']{ -webkit-flex-basis: $glp_col-2; -ms-flex-preferred-size: $glp_col-2; flex-basis: $glp_col-2; width: $glp_col-2; }
+  html.lte-ie9 [class*="#{$grid}-7"] > .col, html.lte-ie9 [class*="#{$grid}-7"] > [class*='col-']{ -webkit-flex-basis: $glp_col-7-12; -ms-flex-preferred-size: $glp_col-7-12; flex-basis: $glp_col-7-12; width: $glp_col-7-12; }
+  html.lte-ie9 [class*="#{$grid}-8"] > .col, html.lte-ie9 [class*="#{$grid}-8"] > [class*='col-']{ -webkit-flex-basis: $glp_col-8-12; -ms-flex-preferred-size: $glp_col-8-12; flex-basis: $glp_col-8-12; width: $glp_col-8-12; }
+  html.lte-ie9 [class*="#{$grid}-9"] > .col, html.lte-ie9 [class*="#{$grid}-9"] > [class*='col-']{ -webkit-flex-basis: $glp_col-9-12; -ms-flex-preferred-size: $glp_col-9-12; flex-basis: $glp_col-9-12; width: $glp_col-9-12; }
+  html.lte-ie9 [class*="#{$grid}-10"] > .col, html.lte-ie9 [class*="#{$grid}-10"] > [class*='col-']{ -webkit-flex-basis: $glp_col-10-12; -ms-flex-preferred-size: $glp_col-10-12; flex-basis: $glp_col-10-12; width: $glp_col-10-12; }
+  html.lte-ie9 [class*="#{$grid}-11"] > .col, html.lte-ie9 [class*="#{$grid}-11"] > [class*='col-']{ -webkit-flex-basis: $glp_col-11-12; -ms-flex-preferred-size: $glp_col-11-12; flex-basis: $glp_col-11-12; width: $glp_col-11-12; }
+  html.lte-ie9 [class*="#{$grid}-12"] > .col, html.lte-ie9 [class*="#{$grid}-12"] > [class*='col-']{ -webkit-flex-basis: $glp_col-1; -ms-flex-preferred-size: $glp_col-1; flex-basis: $glp_col-1; width: $glp_col-1; }
+  html.lte-ie9 [class*="#{$grid}-fifth"] > .col, html.lte-ie9 [class*="#{$grid}-fifth"] > [class*='col-']{ -webkit-flex-basis: $glp_col-fifth; -ms-flex-preferred-size: $glp_col-fifth; flex-basis: $glp_col-fifth; width: $glp_col-fifth; }
+}
+
+// Function to generate the grid by columns
+@mixin makeCol($col)
+{
+  [class*='grid'] {
+    > [class*="#{$col}-1"]{ -webkit-flex-basis: $glp_col-1; -ms-flex-preferred-size: $glp_col-1; flex-basis: $glp_col-1;max-width: $glp_col-1; }
+    > [class*="#{$col}-2"]{ -webkit-flex-basis: $glp_col-2; -ms-flex-preferred-size: $glp_col-2; flex-basis: $glp_col-2;max-width: $glp_col-2; }
+    > [class*="#{$col}-3"]{ -webkit-flex-basis: $glp_col-3; -ms-flex-preferred-size: $glp_col-3; flex-basis: $glp_col-3;max-width: $glp_col-3; }
+    > [class*="#{$col}-4"]{ -webkit-flex-basis: $glp_col-4; -ms-flex-preferred-size: $glp_col-4; flex-basis: $glp_col-4;max-width: $glp_col-4;}
+    > [class*="#{$col}-5"]{ -webkit-flex-basis: $glp_col-5; -ms-flex-preferred-size: $glp_col-5; flex-basis: $glp_col-5;max-width: $glp_col-5;}
+    > [class*="#{$col}-6"]{ -webkit-flex-basis: $glp_col-6; -ms-flex-preferred-size: $glp_col-6; flex-basis: $glp_col-6;max-width: $glp_col-6;}
+    > [class*="#{$col}-7"]{ -webkit-flex-basis: $glp_col-7; -ms-flex-preferred-size: $glp_col-7; flex-basis: $glp_col-7;max-width: $glp_col-7;}
+    > [class*="#{$col}-8"]{ -webkit-flex-basis: $glp_col-8; -ms-flex-preferred-size: $glp_col-8; flex-basis: $glp_col-8;max-width: $glp_col-8;}
+    > [class*="#{$col}-9"]{ -webkit-flex-basis: $glp_col-9; -ms-flex-preferred-size: $glp_col-9; flex-basis: $glp_col-9;max-width: $glp_col-9;}
+    > [class*="#{$col}-10"]{ -webkit-flex-basis: $glp_col-10; -ms-flex-preferred-size: $glp_col-10; flex-basis: $glp_col-10;max-width: $glp_col-10;}
+    > [class*="#{$col}-11"]{ -webkit-flex-basis: $glp_col-11; -ms-flex-preferred-size: $glp_col-11; flex-basis: $glp_col-11;max-width: $glp_col-11;}
+    > [class*="#{$col}-12"]{ -webkit-flex-basis: $glp_col-12; -ms-flex-preferred-size: $glp_col-12; flex-basis: $glp_col-12;max-width: $glp_col-12;}
+    > [class*="#{$col}-fifth"]{ -webkit-flex-basis: $glp_col-fifth; -ms-flex-preferred-size: $glp_col-fifth; flex-basis: $glp_col-fifth;max-width: $glp_col-fifth;}
+		> [class*="#{$col}-first"]{ -webkit-order: -1; -ms-flex-order: -1; order: -1;}
+		> [class*="#{$col}-last"]{ -webkit-order: 1; -ms-flex-order: 1; order: 1;}
+  }
+  html.lte-ie9 [class*='grid'] {
+    > [class*="#{$col}-1"]{ -webkit-flex-basis: $glp_col-1; -ms-flex-preferred-size: $glp_col-1; flex-basis: $glp_col-1;width: $glp_col-1; }
+    > [class*="#{$col}-2"]{ -webkit-flex-basis: $glp_col-2; -ms-flex-preferred-size: $glp_col-2; flex-basis: $glp_col-2;width: $glp_col-2; }
+    > [class*="#{$col}-3"]{ -webkit-flex-basis: $glp_col-3; -ms-flex-preferred-size: $glp_col-3; flex-basis: $glp_col-3;width: $glp_col-3; }
+    > [class*="#{$col}-4"]{ -webkit-flex-basis: $glp_col-4; -ms-flex-preferred-size: $glp_col-4; flex-basis: $glp_col-4;width: $glp_col-4;}
+    > [class*="#{$col}-5"]{ -webkit-flex-basis: $glp_col-5; -ms-flex-preferred-size: $glp_col-5; flex-basis: $glp_col-5;width: $glp_col-5;}
+    > [class*="#{$col}-6"]{ -webkit-flex-basis: $glp_col-6; -ms-flex-preferred-size: $glp_col-6; flex-basis: $glp_col-6;width: $glp_col-6;}
+    > [class*="#{$col}-7"]{ -webkit-flex-basis: $glp_col-7; -ms-flex-preferred-size: $glp_col-7; flex-basis: $glp_col-7;width: $glp_col-7;}
+    > [class*="#{$col}-8"]{ -webkit-flex-basis: $glp_col-8; -ms-flex-preferred-size: $glp_col-8; flex-basis: $glp_col-8;width: $glp_col-8;}
+    > [class*="#{$col}-9"]{ -webkit-flex-basis: $glp_col-9; -ms-flex-preferred-size: $glp_col-9; flex-basis: $glp_col-9;width: $glp_col-9;}
+    > [class*="#{$col}-10"]{ -webkit-flex-basis: $glp_col-10; -ms-flex-preferred-size: $glp_col-10; flex-basis: $glp_col-10;width: $glp_col-10;}
+    > [class*="#{$col}-11"]{ -webkit-flex-basis: $glp_col-11; -ms-flex-preferred-size: $glp_col-11; flex-basis: $glp_col-11;width: $glp_col-11;}
+    > [class*="#{$col}-12"]{ -webkit-flex-basis: $glp_col-12; -ms-flex-preferred-size: $glp_col-12; flex-basis: $glp_col-12;width: $glp_col-12;}
+    > [class*="#{$col}-fifth"]{ -webkit-flex-basis: $glp_col-fifth; -ms-flex-preferred-size: $glp_col-fifth; flex-basis: $glp_col-fifth;width: $glp_col-fifth;}
+  }
+}
+
+// Function to generate the offset
+@mixin makeOff($off)
+{
+  [class*="grid"]{
+    > [data-push-left*="#{$off}-0"]{ margin-left: 0; }
+    > [data-push-left*="#{$off}-1"]{ margin-left: $glp_col-1; }
+    > [data-push-left*="#{$off}-2"]{ margin-left: $glp_col-2; }
+    > [data-push-left*="#{$off}-3"]{ margin-left: $glp_col-3; }
+    > [data-push-left*="#{$off}-4"]{ margin-left: $glp_col-4; }
+    > [data-push-left*="#{$off}-5"]{ margin-left: $glp_col-5; }
+    > [data-push-left*="#{$off}-6"]{ margin-left: $glp_col-6; }
+    > [data-push-left*="#{$off}-6"]{ margin-left: $glp_col-6; }
+    > [data-push-left*="#{$off}-7"]{ margin-left: $glp_col-7; }
+    > [data-push-left*="#{$off}-8"]{ margin-left: $glp_col-8; }
+    > [data-push-left*="#{$off}-9"]{ margin-left: $glp_col-9; }
+    > [data-push-left*="#{$off}-10"]{ margin-left: $glp_col-10; }
+    > [data-push-left*="#{$off}-11"]{ margin-left: $glp_col-11; }
+    > [data-push-left*="#{$off}-fifth"]{ margin-left: $glp_col-fifth; }
+
+    > [data-push-right*="#{$off}-0"]{ margin-right: 0; }
+    > [data-push-right*="#{$off}-1"]{ margin-right: $glp_col-1; }
+    > [data-push-right*="#{$off}-2"]{ margin-right: $glp_col-2; }
+    > [data-push-right*="#{$off}-3"]{ margin-right: $glp_col-3; }
+    > [data-push-right*="#{$off}-4"]{ margin-right: $glp_col-4; }
+    > [data-push-right*="#{$off}-5"]{ margin-right: $glp_col-5; }
+    > [data-push-right*="#{$off}-6"]{ margin-right: $glp_col-6; }
+    > [data-push-right*="#{$off}-6"]{ margin-right: $glp_col-6; }
+    > [data-push-right*="#{$off}-7"]{ margin-right: $glp_col-7; }
+    > [data-push-right*="#{$off}-8"]{ margin-right: $glp_col-8; }
+    > [data-push-right*="#{$off}-9"]{ margin-right: $glp_col-9; }
+    > [data-push-right*="#{$off}-10"]{ margin-right: $glp_col-10; }
+    > [data-push-right*="#{$off}-11"]{ margin-right: $glp_col-11; }
+    > [data-push-right*="#{$off}-fifth"]{ margin-right: $glp_col-fifth; }
+  }
+}
+
+@mixin hideShow($prefix)
+{
+	[class*="#{$prefix}-hide"]{ display: none;}
+	[class*="#{$prefix}-show"]{ display: block;}
+}
+
+/*==============================================================================
+	#GRIDLEX
+==============================================================================*/
+.container {
+	max-width: $container;
+	margin: 0 auto;
+}
+[class*="grid"]{
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  margin-left: -$gl-gutter;
+}
+
+html.lte-ie9 [class*="grid"] {
+  display: block;
+
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+.col,
+[class*="col-"]{
+  box-sizing: border-box;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  padding: 0 0 0 $gl-gutter;
+}
+
+html.lte-ie9 .col, html.lte-ie9 [class*="col-"] {
+  float: left;
+}
+
+.col{
+  -webkit-flex: 1 1 0%;
+  -ms-flex: 1 1 0%;
+  flex: 1 1 0%
+}
+.grid.col,
+.grid[class*="col-"]{
+  margin: 0;
+  padding: 0;
+}
+
+/*==============================================================================
+	#HELPERS SUFFIXES
+==============================================================================*/
+// FOR GRID
+[class*="grid-"]{
+// No spacing between cols : noGutter
+  &[class*="-noGutter"]{
+    margin: 0;
+    > [class*="col"]{
+      padding: 0;
+    }
+  }
+
+// Horizontal alignment
+  &[class*="-center"]{
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  &[class*="-right"]{
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-align-self: flex-end;
+    -ms-flex-item-align: end;
+    align-self: flex-end;
+    margin-left: auto;
+  }
+// Vertical alignment
+  &[class*="-top"]{
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+  }
+  &[class*="-middle"]{
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+  &[class*="-bottom"]{
+    -webkit-align-items: flex-end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+  }
+
+// Orders
+  &[class*="-reverse"]{
+    -webkit-flex-direction: row-reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+  }
+  &[class*="-column"] {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    > [class*="col-"] {
+      -webkit-flex-basis: auto;
+      -ms-flex-preferred-size: auto;
+      flex-basis: auto;
+    }
+  }
+  &[class*="-column-reverse"]{
+    -webkit-flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
+  }
+
+// Spaces between and around cols
+  &[class*="-spaceBetween"]{
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+  &[class*="-spaceAround"]{
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-aroun;
+  }
+
+// Equal heights columns
+  &[class*="-equalHeight"] > [class*="col"]{
+		-js-display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+// FOR COL
+[class*="col-"]{
+  &[class*="-top"]{
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+  }
+  &[class*="-middle"]{
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+  }
+  &[class*="-bottom"]{
+    -webkit-align-self: flex-end;
+    -ms-flex-item-align: end;
+    align-self: flex-end;
+  }
+}
+
+.col {
+  -webkit-flex: 1 1 0%;
+  -ms-flex: 1 1 0%;
+  flex: 1 1 0%;
+}
+
+/*==============================================================================
+	#GRID BY NUMBER
+==============================================================================*/
+@include makeGridByNumber(grid);
+
+@media #{$gl-lg}{
+  @include makeGridByNumber(_lg);
+}
+@media #{$gl-md}{
+  @include makeGridByNumber(_md);
+}
+@media #{$gl-sm}{
+  @include makeGridByNumber(_sm);
+}
+@media #{$gl-xs}{
+  @include makeGridByNumber(_xs);
+}
+
+
+/*==============================================================================
+	#COLUMN SIZES
+==============================================================================*/
+@include makeCol(col);
+@include makeOff(off);
+
+@media #{$gl-lg}{
+  @include makeCol(_lg);
+  @include makeOff(_lg);
+}
+@media #{$gl-md}{
+  @include makeCol(_md);
+  @include makeOff(_md);
+}
+@media #{$gl-sm}{
+  @include makeCol(_sm);
+  @include makeOff(_sm);
+}
+@media #{$gl-xs}{
+  @include makeCol(_xs);
+  @include makeOff(_xs);
+}
+
+/*==============================================================================
+	#HIDE SHOW
+==============================================================================*/
+[class*="lg-show"]{ display: none;}
+[class*="md-show"]{ display: none;}
+[class*="sm-show"]{ display: none;}
+[class*="xs-show"]{ display: none;}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+@media #{$gl-lg}{
+  @include hideShow(lg);
+	[class*="md-show"]{ display: none;}
+	[class*="sm-show"]{ display: none;}
+	[class*="xs-show"]{ display: none;}
+}
+@media #{$gl-md}{
+  @include hideShow(md);
+	[class*="sm-show"]{ display: none;}
+	[class*="xs-show"]{ display: none;}
+	.text-left-md { text-align: left;}
+	.text-center-md  { text-align: center;}
+	.text-right-md  { text-align: right;}
+}
+@media #{$gl-sm}{
+  @include hideShow(sm);
+	[class*="xs-show"]{ display: none;}
+	.text-left-sm { text-align: left;}
+	.text-center-sm  { text-align: center;}
+	.text-right-sm  { text-align: right;}
+}
+@media #{$gl-xs}{
+  @include hideShow(xs);
+	.text-left-xs { text-align: left;}
+	.text-center-xs  { text-align: center;}
+	.text-right-xs  { text-align: right;}
+}
+
+/*==============================================================================
+	#HELPERS
+==============================================================================*/
+@media only screen and (max-width: $large) {
+	.container {
+		padding: 0 $gl-gutter;
+	}
+}

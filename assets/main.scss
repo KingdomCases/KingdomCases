@@ -1,0 +1,1449 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "grid";
+@import "reset";
+@import "slick";
+
+ /*8888b.  888      .d88888b.  888888b.         d8888 888      .d8888b.
+d88P  Y88b 888     d88P" "Y88b 888  "88b       d88888 888     d88P  Y88b
+888    888 888     888     888 888  .88P      d88P888 888     Y88b.
+888        888     888     888 8888888K.     d88P 888 888      "Y888b.
+888  88888 888     888     888 888  "Y88b   d88P  888 888         "Y88b.
+888    888 888     888     888 888    888  d88P   888 888           "888
+Y88b  d88P 888     Y88b. .d88P 888   d88P d8888888888 888     Y88b  d88P
+ "Y8888P88 88888888 "Y88888P"  8888888P" d88P     888 88888888 "Y8888*/
+
+/*==============================================================================
+	#MIXINS
+==============================================================================*/
+// Opacity - Usage: @include prefix(ATTRIBUTE, VALUE);
+@mixin prefix($name, $argument) {
+	-webkit-#{$name}: #{$argument};
+	-ms-#{$name}: #{$argument};
+	-moz-#{$name}: #{$argument};
+	-o-#{$name}: #{$argument};
+	#{$name}: #{$argument};
+}
+
+// Opacity - Usage: @include opacity(VALUE);
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie);
+}
+
+/*==============================================================================
+	#VARIABLES
+==============================================================================*/
+$container: 1280px;
+$large: 1280px;
+$medium: 1024px;
+$small: 768px;
+$extrasmall: 480px;
+$tiny: 320px;
+$gutter: 20px;
+$gutter-half: 10px;
+
+$opacity: 0.7;
+
+$colorMain: #34495e;
+$colorDarkMain: #2c3e50;
+$colorBlue: #3498db;
+$colorDarkBlue: #2980b9;
+$colorGrey: #808080;
+$colorLightGrey: #efefef;
+$colorGreen: #2ecc71;
+$colorDarkGreen: #27ae60;
+
+$colorButton: #333;
+$colorBorder: #ccc;
+$colorBorderDark: #aaa;
+
+$fontMain: 'Montserrat', sans-serif;
+
+/*==============================================================================
+	#HELPERS
+==============================================================================*/
+.cf, .clearfix {
+  *zoom: 1;
+  &:before {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
+}
+// Sets the font size of a container to 0 to prevent the child inline-block elements from having invisible margins
+.ib-fix {
+	font-size: 0;
+}
+
+/*==============================================================================
+	#GENERAL
+==============================================================================*/
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: $fontMain;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+img {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.full-width {	width: 100%;}
+.max-full-width { max-width: 100%;}
+.padding { padding-bottom: $gutter;}
+
+input, select, textarea, button {
+  font-family: inherit;
+	font-size: 18px;
+}
+.label {
+	display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+	color: $colorMain;
+}
+.label-side {
+	display: inline-block;
+  margin-right: 10px;
+  font-size: 14px;
+	line-height: 48px;
+  font-weight: 700;
+  text-transform: uppercase;
+	color: $colorMain;
+}
+[class*="input"] {
+	padding: 12px 20px 12px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $colorGrey;
+  background: $colorLightGrey;
+  border: 3px solid $colorLightGrey;
+  @include prefix(border-radius, 0);
+  @include prefix(appearance, none);
+  &:active, &:focus {
+    border-color: $colorBlue;
+    outline: 0;
+  }
+  &[class*="--full"] {
+    width: 100%;
+  }
+}
+.textarea {
+	width: 100%;
+	max-width: 100%;
+	min-height: 250px;
+	padding: 12px 20px 12px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $colorGrey;
+  background: $colorLightGrey;
+  border: 3px solid $colorLightGrey;
+  @include prefix(border-radius, 0);
+  @include prefix(appearance, none);
+  &:active, &:focus {
+    border-color: $colorBlue;
+    outline: 0;
+  }
+}
+.selector-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  &:after {
+    content: url({{ 'select-arrows.svg' | asset_url }});
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    z-index: 5;
+    display: block;
+		height: 24px;
+    @include prefix(transform, translate(0, -50%));
+  }
+}
+.select {
+	padding: 15px 40px 15px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $colorGrey;
+  background: $colorLightGrey;
+  border: 0;
+  @include prefix(border-radius, 0);
+  @include prefix(appearance, none);
+	&:active, &:focus {
+		outline: 0;
+	}
+	&[class*="--full"] {
+		width: 100%;
+	}
+}
+[class*="button"] {
+  display: inline-block;
+  padding: 15px 20px;
+  font-size: 16px;
+	line-height: 18px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  background: $colorBlue;
+  border: 0;
+  cursor: pointer;
+  &:hover {
+    background: $colorDarkBlue;
+  }
+  &[class*="--full"] {
+    width: 100%;
+  }
+	&[class*="--light"] {
+    @include opacity(0.40);
+  }
+}
+.title-button {
+	float: right;
+	padding: 15px 20px;
+	font-size: 18px;
+	line-height: 24px;
+}
+.split {
+  *zoom: 1;
+  &:before {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
+}
+.split-6 {
+  float: left;
+  width: 50%;
+  height: 100%;
+  padding-left: 20px;
+}
+.ribbon-title {
+  position: relative;
+  display: inline-block;
+  padding: 15px $gutter 15px 0;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  background: $colorMain;
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 100%;
+    width: 100vw;
+    height: 100%;
+    background: $colorMain;
+  }
+}
+.index {
+	.content-wrapper {
+		padding-top: 67px;
+	}
+}
+.content-wrapper {
+	position: relative;
+	padding-top: 107px;
+  padding-bottom: 40px;
+  &.home {
+    padding-top: 0;
+  }
+	&.cart-opened {
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 20;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.5);
+		}
+	}
+}
+#shopify-section-footer {
+	position: relative;
+	&.cart-opened {
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 20;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.5);
+		}
+	}
+}
+
+ /*8888b.  .d88888b. 888b    888888888888888888888888888b    88888888888888
+d88P  Y88bd88P" "Y88b8888b   888    888    888       8888b   888    888
+888    888888     88888888b  888    888    888       88888b  888    888
+888       888     888888Y88b 888    888    8888888   888Y88b 888    888
+888       888     888888 Y88b888    888    888       888 Y88b888    888
+888    888888     888888  Y88888    888    888       888  Y88888    888
+Y88b  d88PY88b. .d88P888   Y8888    888    888       888   Y8888    888
+ "Y8888P"  "Y88888P" 888    Y888    888    8888888888888    Y888    8*/
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $colorMain;
+}
+
+h1, .h1 {
+  font-size: 24px;
+  line-height: 30px;
+}
+h2, .h2 {
+  font-size: 18px;
+  line-height: 24px;
+}
+h3, .h3 {
+  font-size: 18px;
+  line-height: 24px;
+}
+h4, .h4 {
+  font-size: 14px;
+  line-height: 18px;
+}
+h5, .h5 {
+  font-size: 14px;
+  line-height: 18px;
+}
+h6, .h6 {
+  font-size: 14px;
+  line-height: 18px;
+}
+a {
+	text-decoration: none;
+}
+p {
+  margin-bottom: $gutter;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: $colorGrey;
+	a {
+		color: $colorBlue;
+		&:hover {
+			color: $colorDarkBlue;
+		}
+	}
+}
+strong {
+	font-weight: bold;
+}
+em {
+	font-style: italic;
+}
+ul, ol {
+  margin-bottom: $gutter;
+  margin-left: $gutter;
+}
+ul {
+  list-style-type: disc;
+  &[class*="--unstyled"] {
+   margin-bottom: 0;
+   margin-left: 0;
+   list-style-type: none;
+  }
+  &[class*="--inline"] {
+   li {
+     display: inline-block;
+     margin: 0 5px;
+   }
+  }
+}
+ol {
+ list-style-type: decimal;
+}
+li {
+	margin-bottom: 5px;
+	font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: $colorGrey;
+}
+a {
+ &:hover {
+	 text-decoration: none;
+ }
+}
+blockquote {
+  margin: 0 0 $gutter 0;
+  padding-left: $gutter;
+  font-size: 16px;
+  line-height: 24px;
+  font-style: italic;
+  font-weight: 300;
+  color: $colorGrey;
+  border-left: 5px solid $colorGrey;
+  footer {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+}
+
+/*8    888 8888888888        d8888 8888888b.  8888888888 8888888b.
+888    888 888              d88888 888  "Y88b 888        888   Y88b
+888    888 888             d88P888 888    888 888        888    888
+8888888888 8888888        d88P 888 888    888 8888888    888   d88P
+888    888 888           d88P  888 888    888 888        8888888P"
+888    888 888          d88P   888 888    888 888        888 T88b
+888    888 888         d8888888888 888  .d88P 888        888  T88b
+888    888 8888888888 d88P     888 8888888P"  8888888888 888   T8*/
+#shopify-section-header {
+	position: fixed;
+	top: 0!important;
+	left: 0;
+	z-index: 100;
+	width: 100%;
+}
+.header {
+	position: relative;
+	z-index: 25;
+  background: $colorMain;
+}
+.logo {
+  float: left;
+	height: 67px;
+  a {
+    @include prefix(transition, all 0.2s ease-in-out);
+    &:hover {
+    }
+  }
+}
+.nav {
+	display: inline-block;
+	vertical-align: top;
+}
+.nav-menu {
+	font-size: 0;
+}
+.nav-menu-item {
+  display: inline-block;
+  margin: 0;
+}
+.nav-menu-link {
+  display: block;
+  padding: $gutter;
+	font-family: $fontMain;
+  font-size: 16px;
+  line-height: 27px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 400;
+  color: #fff;
+  @include prefix(transition, all 0.2s ease-in-out);
+  &:hover {
+    background: #2c3e50;
+  }
+}
+.nav-menu-item-select {
+	padding: 15px 20px;
+	border-left: 1px solid rgba(255,255,255,0.1);
+	.selector-wrapper {
+		&:after {
+			content: url({{ 'select-arrows-white.svg' | asset_url }});
+			height: 20px;
+		}
+	}
+}
+.phone-type-label {
+	vertical-align: top;
+	width: 46px;
+	margin-right: 5px;
+	padding: 4px 0;
+	font-size: 12px;
+	line-height: 14px;
+	font-weight: 700;
+	text-transform: uppercase;
+	text-align: right;
+	color: #fff;
+}
+.phone-type-selector {
+	padding: 10px 28px 10px 10px;
+	font-size: 16px;
+	line-height: 17px;
+	font-weight: normal;
+	text-align: right;
+	color: #fff;
+	background: #667789;
+	cursor: pointer;
+}
+.mobile-nav {
+  display: none;
+  vertical-align: top;
+  padding: 10px 20px;
+  font-size: 16px;
+  line-height: 27px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 400;
+  color: #fff;
+	border-left: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  @include prefix(transition, all 0.2s ease-in-out);
+  &:hover {
+    background: $colorDarkBlue;
+  }
+}
+.cart-button {
+	position: relative;
+	width: 67px;
+	padding: 0;
+	font-family: $fontMain;
+  font-size: 24px;
+  line-height: 67px;
+  text-transform: uppercase;
+  text-decoration: none;
+	text-align: center;
+  font-weight: 400;
+  color: #fff;
+  background: $colorBlue;
+	cursor: pointer;
+	@include prefix(transition, all 0.2s ease-in-out);
+  &:hover {
+    background: $colorDarkBlue;
+		&.cart-opened {
+			&:before {
+				border-color: $colorDarkBlue transparent transparent transparent;
+			}
+		}
+  }
+	&.cart-opened {
+		&:before {
+			content: '';
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			z-index: 10;
+			display: block;
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-width: 7px 7px 0 7px;
+			border-color: $colorBlue transparent transparent transparent;
+			@include prefix(transform, translate(-50%, 0));
+			@include prefix(transition, all 0.2s ease-in-out);
+		}
+	}
+}
+@-webkit-keyframes cartNotification {
+    0% {background-color: $colorGreen;}
+  100% {background-color: $colorDarkGreen;}
+}
+.mobile-cart-notification {
+	position: absolute;
+	top: 19px;
+	right: 21px;
+	height: 7px;
+	width: 7px;
+	background: $colorGreen;
+	@include prefix(border-radius, 50%);
+	-webkit-animation: cartNotification 1s infinite alternate;
+}
+.mini-cart {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	display: none;
+	width: 100%;
+	max-width: 400px;
+	background: #fff;
+	&.cart-opened {
+		display: block;
+	}
+	p {
+		margin-bottom: 0;
+	}
+}
+.mini-cart-body {
+	position: relative;
+	width: 100%;
+	max-height: 280px;
+	overflow: auto;
+}
+.mini-cart-refresh {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.4);
+	i {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		font-size: 24px;
+		color: #fff;
+		@include prefix(transform, translate(-50%, -50%));
+	}
+}
+.mini-cart-item-row {
+	padding: 20px;
+	border-bottom: 1px solid $colorLightGrey;
+	&:last-of-type {
+		border-bottom: 0;
+	}
+}
+.mini-cart-item-title {
+	a {
+		color: $colorBlue;
+		&:hover {
+			color: $colorDarkBlue;
+		}
+	}
+}
+.mini-cart-item-remove {
+	font-size: 12px;
+	color: $colorMain;
+	cursor: pointer;
+}
+.mini-cart-footer {
+	padding: 20px 20px 0 20px;
+	border-top: 1px solid $colorLightGrey;
+}
+
+
+/*8    888  .d88888b.  888b     d888 8888888888
+888    888 d88P" "Y88b 8888b   d8888 888
+888    888 888     888 88888b.d88888 888
+8888888888 888     888 888Y88888P888 8888888
+888    888 888     888 888 Y888P 888 888
+888    888 888     888 888  Y8P  888 888
+888    888 Y88b. .d88P 888   "   888 888
+888    888  "Y88888P"  888       888 88888888*/
+.home-section {
+	margin-bottom: $gutter;
+}
+.slideshow-section {
+  background: #ccc;
+}
+.slick-slider {
+  visibility: hidden!important;
+  &.slick-initialized {
+    visibility: visible!important;
+  }
+}
+.slideshow {
+  .slick-prev, .slick-next {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    font-size: 24px;
+    background: none;
+    border: 0;
+    @include prefix(transform, translate(0, -50%));
+    cursor: pointer;
+  }
+  .slick-prev {
+      left: 0;
+  }
+  .slick-next {
+      right: 0;
+  }
+  img {
+      width: 100%;
+  }
+  .slide-6 {
+    position: relative;
+  }
+}
+
+.slide-info {
+  position: absolute;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: rgba(164, 172, 67, 0.50);
+  }
+  img {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+  }
+  .button {
+    background: rgba(164, 172, 67, 0.25);
+    &:hover {
+      background: rgba(164, 172, 67, 0.50);
+    }
+  }
+}
+.slide-caption-product-title {
+	img {
+		max-width: 333px;
+	}
+}
+.slide-caption {
+  position: relative;
+  top: 50%;
+  @include prefix(transform, translate(0, -50%));
+}
+.hero {
+	position: relative;
+	img {
+		width: 100%;
+	}
+}
+.hero-caption {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	z-index: 5;
+	width: 100%;
+	text-align: center;
+	@include prefix(transform, translate(0, -50%));
+}
+
+
+ /*8888b.   .d88888b.  888      888      8888888888 .d8888b. 88888888888 8888888 .d88888b.  888b    888
+d88P  Y88b d88P" "Y88b 888      888      888       d88P  Y88b    888       888  d88P" "Y88b 8888b   888
+888    888 888     888 888      888      888       888    888    888       888  888     888 88888b  888
+888        888     888 888      888      8888888   888           888       888  888     888 888Y88b 888
+888        888     888 888      888      888       888           888       888  888     888 888 Y88b888
+888    888 888     888 888      888      888       888    888    888       888  888     888 888  Y88888
+Y88b  d88P Y88b. .d88P 888      888      888       Y88b  d88P    888       888  Y88b. .d88P 888   Y8888
+ "Y8888P"   "Y88888P"  88888888 88888888 8888888888 "Y8888P"     888     8888888 "Y88888P"  888    Y8*/
+
+.product-square-item {
+  .product-image {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding-bottom: 100%;
+    @include prefix(box-shadow, 0 2px 15px rgba(0,0,0,0.1));
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 3;
+      padding: $gutter;
+      @include prefix(transform, translate(-50%, -50%));
+    }
+    &:hover {
+      &:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 5;
+				width: calc(100% - 10px);
+				height: calc(100% - 10px);
+				border: 5px solid $colorBlue;
+			}
+    }
+  }
+  .product-item-info {
+		padding: 20px 0;
+  }
+	.product-item-title {
+		display: inline-block;
+		vertical-align: top;
+		width: 100%;
+		margin: 0;
+		font-weight: normal;
+		text-transform: none;
+	  text-overflow: ellipsis;
+	  white-space: nowrap;
+		overflow:hidden;
+		a {
+			font-size: 16px;
+	    line-height: 20px;
+			color: $colorMain;
+			&:hover {
+				color: $colorBlue;
+			}
+		}
+	}
+	.product-item-variant {
+		display: block;
+		font-size: 14px;
+		font-style: italic;
+		color: $colorGrey;
+	}
+  .product-item-price {
+		display: inline-block;
+		vertical-align: top;
+    margin: 0 5px 0 0;
+    font-size: 16px;
+    line-height: 20px;
+		font-weight: 700;
+    color: $colorMain;
+  }
+	.product-item-form {
+		display: inline-block;
+		width: 100%;
+		font-size: 0;
+	}
+	.small-add-to-cart {
+		width: 100%;
+		padding: 10px;
+		font-size: 12px;
+		background: $colorGreen;
+		@include prefix(transition, all 0.2s ease-in-out);
+		&:hover {
+			background: $colorDarkGreen;
+		}
+	}
+	&.no-phone {
+		.product-item-price {
+			line-height: 20px;
+		}
+	}
+	.selector-wrapper {
+		width: 100%;
+		&:after {
+			content: url({{ 'select-arrows-small.svg' | asset_url }});
+			height: 16px;
+		}
+		.select {
+			padding: 10px 25px 10px 15px;
+			width: 100%;
+			font-size: 12px;
+			line-height: 18px;
+		}
+	}
+}
+
+
+
+
+/*8b     d888  .d88888b.  8888888b.        d8888 888      .d8888b.
+8888b   d8888 d88P" "Y88b 888  "Y88b      d88888 888     d88P  Y88b
+88888b.d88888 888     888 888    888     d88P888 888     Y88b.
+888Y88888P888 888     888 888    888    d88P 888 888      "Y888b.
+888 Y888P 888 888     888 888    888   d88P  888 888         "Y88b.
+888  Y8P  888 888     888 888    888  d88P   888 888           "888
+888   "   888 Y88b. .d88P 888  .d88P d8888888888 888     Y88b  d88P
+888       888  "Y88888P"  8888888P" d88P     888 88888888 "Y8888*/
+.quickview-wrapper {
+	position: relative;
+	padding: $gutter;
+	margin: $gutter auto;
+  max-width: 800px;
+  background: #fff;
+}
+
+/*88888b.  8888888b.   .d88888b.  8888888b.  888     888  .d8888b. 88888888888
+888   Y88b 888   Y88b d88P" "Y88b 888  "Y88b 888     888 d88P  Y88b    888
+888    888 888    888 888     888 888    888 888     888 888    888    888
+888   d88P 888   d88P 888     888 888    888 888     888 888           888
+8888888P"  8888888P"  888     888 888    888 888     888 888           888
+888        888 T88b   888     888 888    888 888     888 888    888    888
+888        888  T88b  Y88b. .d88P 888  .d88P Y88b. .d88P Y88b  d88P    888
+888        888   T88b  "Y88888P"  8888888P"   "Y88888P"   "Y8888P"     8*/
+
+.product-image-wrapper {
+  padding-right: 40px;
+}
+.product-image {
+  display: block;
+  width: 100%;
+  background: #fff;
+  @include prefix(box-shadow, 0 2px 15px rgba(0,0,0,0.1));
+  img {
+    padding: $gutter;
+  }
+}
+.product-title {
+  &.ribbon-title {
+    padding: 10px 20px 10px 0;
+		&:before {
+			width: 60px;
+		}
+  }
+}
+.product-price {
+  display: inline-block;
+  padding-left: 10px;
+  font-weight: 700;
+  line-height: 50px;
+  color: $colorMain;
+}
+.product-select-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+	color: $colorMain;
+}
+.single-option-selector {
+  padding: 15px 40px 15px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $colorGrey;
+  background: $colorLightGrey;
+  border: 0;
+  @include prefix(border-radius, 0);
+  @include prefix(appearance, none);
+}
+.quantity {
+  display: inline-block;
+  width: 48px;
+  padding: 15px 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 700;
+  color: $colorGrey;
+  background: $colorLightGrey;
+  border: 0;
+  @include prefix(appearance, none);
+}
+.quantity::-webkit-outer-spin-button, .quantity::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+.quantity {
+  -moz-appearance: textfield;
+}
+.add-to-cart {
+  padding: 15px 40px;
+  background: $colorGreen;
+  &:hover {
+    background: $colorDarkGreen;
+  }
+}
+.zooming-notice:before {
+	content: 'Click, hold and drag the image to zoom in closer!';
+	display: block;
+	padding: 10px;
+	font-size: 12px;
+	font-style: italic;
+	text-align: center;
+	color: $colorGrey;
+}
+.tab-titles {
+	font-size: 0;
+}
+.tab-title {
+	display: inline-block;;
+	padding: 15px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $colorGrey;
+  background: #efefef;
+	cursor: pointer;
+	&.active {
+		color: #fff;
+		background: $colorBlue;
+	}
+}
+.tab-content {
+	display: none;
+	width: 100%;
+	padding: 15px;
+	color: $colorGrey;
+  background: #efefef;
+	border-top: 3px solid $colorBlue;
+	&.active {
+		display: inline-block;
+	}
+	p:last-of-type {
+		margin-bottom: 0;
+	}
+	h3 {
+		color: $colorGrey;
+	}
+}
+.badges {
+	font-size: 0;
+	.badge {
+		display: inline-block;
+		margin-right: 10px;
+		img {
+			display: block;
+		}
+	}
+}
+
+/*88888b.     d8888  .d8888b.  8888888888 .d8888b.
+888   Y88b   d88888 d88P  Y88b 888       d88P  Y88b
+888    888  d88P888 888    888 888       Y88b.
+888   d88P d88P 888 888        8888888    "Y888b.
+8888888P" d88P  888 888  88888 888           "Y88b.
+888      d88P   888 888    888 888             "888
+888     d8888888888 Y88b  d88P 888       Y88b  d88P
+888    d88P     888  "Y8888P88 8888888888 "Y8888*/
+
+.page-content {
+	h2 {
+		margin-bottom: 10px;
+		font-size: 22px;
+		text-transform: none;
+    line-height: 30px;
+	}
+	h3 {
+		margin-bottom: 10px;
+		font-size: 18px;
+		text-transform: none;
+    line-height: 24px;
+	}
+}
+
+       /*888  .d8888b.   .d8888b.   .d88888b.  888     888 888b    888 88888888888
+      d88888 d88P  Y88b d88P  Y88b d88P" "Y88b 888     888 8888b   888     888
+     d88P888 888    888 888    888 888     888 888     888 88888b  888     888
+    d88P 888 888        888        888     888 888     888 888Y88b 888     888
+   d88P  888 888        888        888     888 888     888 888 Y88b888     888
+  d88P   888 888    888 888    888 888     888 888     888 888  Y88888     888
+ d8888888888 Y88b  d88P Y88b  d88P Y88b. .d88P Y88b. .d88P 888   Y8888     888
+d88P     888  "Y8888P"   "Y8888P"   "Y88888P"   "Y88888P"  888    Y888     8*/
+.address-list-row {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	font-size: 0;
+	border-bottom: 1px solid $colorBorder;
+	&:last-of-type {
+		border-bottom: 0;
+	}
+}
+.address-list-icon {
+	display: inline-block;
+	vertical-align: top;
+	width: 40px;
+	i {
+		font-size: 18px;
+	}
+}
+.address-list-value {
+	display: inline-block;
+	vertical-align: top;
+	width: calc(100% - 40px);
+	font-size: 14px;
+	p {
+		margin-bottom: 5px;
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+}
+.reorder {
+	cursor: pointer;
+}
+
+
+
+ /*8888b.  888      8888888 8888888b.  8888888888       .d88888b.  888     888 88888888888       .d8888b.        d8888 8888888b. 88888888888
+d88P  Y88b 888        888   888  "Y88b 888             d88P" "Y88b 888     888     888          d88P  Y88b      d88888 888   Y88b    888
+Y88b.      888        888   888    888 888             888     888 888     888     888          888    888     d88P888 888    888    888
+ "Y888b.   888        888   888    888 8888888         888     888 888     888     888          888           d88P 888 888   d88P    888
+    "Y88b. 888        888   888    888 888             888     888 888     888     888          888          d88P  888 8888888P"     888
+      "888 888        888   888    888 888             888     888 888     888     888          888    888  d88P   888 888 T88b      888
+Y88b  d88P 888        888   888  .d88P 888             Y88b. .d88P Y88b. .d88P     888          Y88b  d88P d8888888888 888  T88b     888
+ "Y8888P"  88888888 8888888 8888888P"  8888888888       "Y88888P"   "Y88888P"      888           "Y8888P" d88P     888 888   T88b    888
+
+ .d8888b.           888b     d888 8888888888 888b    888 888     888
+d88P  "88b          8888b   d8888 888        8888b   888 888     888
+Y88b. d88P          88888b.d88888 888        88888b  888 888     888
+ "Y8888P"           888Y88888P888 8888888    888Y88b 888 888     888
+.d88P88K.d88P       888 Y888P 888 888        888 Y88b888 888     888
+888"  Y888P"        888  Y8P  888 888        888  Y88888 888     888
+Y88b .d8888b        888   "   888 888        888   Y8888 Y88b. .d88P
+ "Y8888P" Y88b      888       888 8888888888 888    Y888  "Y88888*/
+.cart-drawer {
+	height: 0;
+	overflow: hidden;
+	@include prefix(transform-style, preserve-3d);
+	@include prefix(transition, all 600ms cubic-bezier(0.47, 0.5, 0, 0.95));
+}
+.cart-drawer.right-drawer {
+	height: 100%;
+	right: 0;
+	top: 0;
+	position: fixed;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 0;
+}
+.cart-drawer.right-drawer .cart-drawer-inner {
+	width: 300px;
+}
+.cart-drawer.right-drawer.drawer-opened {
+	width: 300px;
+}
+.page-container {
+	@include prefix(transition, all 600ms cubic-bezier(0.47, 0.5, 0, 0.95));
+}
+.page-container.drawer-opened {
+	@include prefix(transform, translateX(-300px));
+}
+.menu-drawer {
+	height: 0;
+	overflow: hidden;
+	@include prefix(transform-style, preserve-3d);
+	@include prefix(transition, all 600ms cubic-bezier(0.47, 0.5, 0, 0.95));
+}
+.menu-drawer {
+	height: 100%;
+	left: -300px;
+	top: 0;
+	position: fixed;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 300px;
+}
+.menu-drawer .menu-drawer-inner {
+	left: 0;
+}
+.menu-drawer.menu-drawer-opened {
+	left: 0;
+}
+.page-container {
+	@include prefix(transition, all 600ms cubic-bezier(0.47, 0.5, 0, 0.95));
+}
+.page-container.menu-drawer-opened {
+	@include prefix(transform, translateX(300px));
+}
+
+ /*8888b.        d8888 8888888b. 88888888888
+d88P  Y88b      d88888 888   Y88b    888
+888    888     d88P888 888    888    888
+888           d88P 888 888   d88P    888
+888          d88P  888 8888888P"     888
+888    888  d88P   888 888 T88b      888
+Y88b  d88P d8888888888 888  T88b     888
+ "Y8888P" d88P     888 888   T88b    8*/
+
+.cart-header {
+	padding: 20px;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: #fff;
+	background: $colorMain;
+}
+.cart-body-row {
+	margin-bottom: 20px;
+	padding: 0 20px 20px 20px;
+	border-bottom: 1px solid $colorLightGrey;
+}
+.cart-image {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 10px;
+	img {
+		display: block;
+	}
+}
+.cart-title {
+	margin-bottom: 5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: $colorBlue;
+	&:hover {
+		color: $colorDarkBlue;
+	}
+}
+.cart-variant {
+	font-size: 14px;
+	font-style: italic;
+	color: $colorGrey;
+}
+.cart-price {
+	font-family: $fontMain;
+	font-size: 16px;
+	font-weight: 700;
+	color: $colorMain;
+}
+.quantity-wrapper {
+	display: inline-block;
+	.quantity-minus, .quantity-plus {
+		float: left;
+		display: block;
+		padding: 0 5px;
+		line-height: 40px;
+		cursor: pointer;
+		&:hover {
+			color: $colorBlue;
+		}
+	}
+	.quantity {
+		float: left;
+		width: 30px;
+		height: 40px;
+		padding: 10px 5px;
+		line-height: 40px;
+		text-align: center;
+		background: none;
+		border: 1px solid $colorLightGrey;
+	}
+}
+.cart-special-instructions {
+	min-height: 150px;
+}
+.cart-subtotal, .cart-total-price {
+	font-weight: 700;
+	text-transform: uppercase;
+	color: $colorMain;
+}
+.cart-mobile-title {
+	font-size: 14px;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: $colorMain;
+}
+.checkout {
+	background: $colorGreen;
+	@include prefix(appearance, none);
+	&:hover {
+		background: $colorDarkGreen;
+	}
+}
+.cart-update {
+	display: inline-block;
+	width: 100%;
+	font-size: 14px;
+	line-height: 24px;
+	text-align: center;
+	color: $colorBlue;
+	background: none;
+	border: 0;
+	@include prefix(appearance, none);
+	cursor: pointer;
+	&:hover {
+		color: $colorDarkBlue;
+	}
+}
+
+/*88888888 .d88888b.   .d88888b. 88888888888 8888888888 8888888b.
+888       d88P" "Y88b d88P" "Y88b    888     888        888   Y88b
+888       888     888 888     888    888     888        888    888
+8888888   888     888 888     888    888     8888888    888   d88P
+888       888     888 888     888    888     888        8888888P"
+888       888     888 888     888    888     888        888 T88b
+888       Y88b. .d88P Y88b. .d88P    888     888        888  T88b
+888        "Y88888P"   "Y88888P"     888     8888888888 888   T8*/
+
+.footer {
+  padding: 40px 0;
+  background: $colorMain;
+  h3 {
+    margin-bottom: 10px;
+		color: #fff;
+  }
+	p {
+		color: #fff;
+	}
+}
+.footer-list {
+	margin-left: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+.footer-list-title {
+	h3 {
+		text-transform: uppercase;
+		font-weight: 700;
+		color: #fff;
+	}
+}
+.footer-list-item {
+	a {
+		color: #fff;
+	}
+}
+.footer-bottom {
+  padding: 10px;
+  background: $colorDarkMain;
+  p {
+    margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+		color: #fff;
+  }
+}
+.newsletter {
+	margin-bottom: 20px;
+}
+.social-media-links {
+	a {
+		margin-left: 10px;
+		font-size: 24px;
+		color: #fff;
+	}
+}
+
+
+/*88888b.  8888888888 .d8888b.  8888888b.   .d88888b.  888b    888  .d8888b. 8888888 888     888 8888888888
+888   Y88b 888       d88P  Y88b 888   Y88b d88P" "Y88b 8888b   888 d88P  Y88b  888   888     888 888
+888    888 888       Y88b.      888    888 888     888 88888b  888 Y88b.       888   888     888 888
+888   d88P 8888888    "Y888b.   888   d88P 888     888 888Y88b 888  "Y888b.    888   Y88b   d88P 8888888
+8888888P"  888           "Y88b. 8888888P"  888     888 888 Y88b888     "Y88b.  888    Y88b d88P  888
+888 T88b   888             "888 888        888     888 888  Y88888       "888  888     Y88o88P   888
+888  T88b  888       Y88b  d88P 888        Y88b. .d88P 888   Y8888 Y88b  d88P  888      Y888P    888
+888   T88b 8888888888 "Y8888P"  888         "Y88888P"  888    Y888  "Y8888P" 8888888     Y8P     88888888*/
+
+@media only screen and (max-width: 1080px) {
+  .header {
+    position: relative;
+  }
+  .logo {
+    position: relative;
+    float: none;
+    display: inline-block;
+    width: calc(100% - 114px);
+    height: 47px;
+  }
+  .mobile-nav {
+    display: inline-block;
+  }
+	.cart-button {
+    display: inline-block;
+		vertical-align: top;
+		width: 57px;
+		font-size: 18px;
+		line-height: 47px;
+  }
+	.mobile-cart-notification {
+		top: 11px;
+    right: 18px;
+	}
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: -100;
+    width: 100%;
+		height: 0;
+    background: $colorMain;
+    @include prefix(transition, opacity 0.2s ease-in-out);
+		visibility: hidden;
+		@include opacity(0);
+    &.nav-opened {
+			z-index: 100;
+			height: auto;
+			visibility: visible;
+      @include opacity(1);
+    }
+  }
+  .nav-menu-item {
+    display: block;
+  }
+	.nav-menu-link {
+		padding: 10px;
+		font-size: 14px;
+		text-align: center;
+	}
+	.nav-menu-item-select {
+		padding-top: 0;
+		text-align: center;
+	}
+	.nav-menu-item-cart {
+		display: none;
+	}
+	.content-wrapper {
+		padding-top: 67px;
+	}
+	.index {
+		.content-wrapper {
+			padding-top: 47px;
+		}
+	}
+	.featured-button-view-all {
+		display: none;
+	}
+}
+@media only screen and (min-width: 768px) {
+	.content-wrapper {
+		min-height: calc(100vh - 310px);
+	}
+}
+@media only screen and (max-width: 768px) {
+  .slideshow {
+    .slide {
+      min-height: 300px;
+    }
+		.slide-info {
+			.split-6 {
+				padding: 0 10px;
+			}
+		}
+    .slide-background {
+      position: absolute;
+      width: auto;
+      max-width: none;
+      top: 50%;
+      left: 50%;
+      @include prefix(transform, translate(-50%, -50%));
+    }
+		.slide-image {
+			position: relative;
+			top: 50%;
+			@include prefix(transform, translate(0, -50%));
+		}
+  }
+  .product-image-wrapper {
+    padding-right: 0;
+  }
+	.product-item-price {
+		width: calc(100% - 123px);
+	}
+	.cart-body-row {
+		padding: 20px 0;
+		&:first-of-type {
+			padding-top: 20px;
+			border-top: 1px solid $colorLightGrey;
+		}
+	}
+}
+@media only screen and (max-width: 480px) {
+	.mini-cart-inner {
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-webkit-justify-content: space-between;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		height: calc(100vh - 47px);
+		width: 100%;
+		overflow: auto;
+	}
+	.mini-cart-body {
+		max-height: none;
+	}
+	.mini-cart-button {
+		padding: 15px 0;
+	}
+}
